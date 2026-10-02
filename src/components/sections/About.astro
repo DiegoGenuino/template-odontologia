@@ -1,0 +1,16 @@
+---
+import type { SiteConfig } from "../../config/site";
+import Cta from "../Cta.astro";
+interface Props { data: SiteConfig["about"] }
+const { data } = Astro.props;
+---
+<section class="about" id="sobre" aria-labelledby="about-title">
+  <div class="wrap about-grid">
+    <div class="doctor-portrait"><img src={data.image.src} alt={data.image.alt} width={data.image.width} height={data.image.height} /></div>
+    <div class="about-copy">
+      <h2 id="about-title">{data.title}</h2>
+      {data.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+      <div class="about-actions"><Cta {...data.cta} className="outline-link" /></div>
+    </div>
+  </div>
+</section>

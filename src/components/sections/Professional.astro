@@ -1,0 +1,22 @@
+---
+import type { SiteConfig } from "../../config/site";
+import Cta from "../Cta.astro";
+interface Props { data: SiteConfig["professional"] }
+const { data } = Astro.props;
+---
+<section class="professional" id="profissional" aria-labelledby="professional-title">
+  <div class="wrap professional-inner">
+    <div class="professional-heading"><h2 id="professional-title">{data.title}</h2><p>{data.intro}</p></div>
+    {data.items.map((person) => (
+      <div class="professional-card">
+        <div class="professional-image"><img src={person.image.src} alt={person.image.alt} width={person.image.width} height={person.image.height} loading="lazy" /></div>
+        <div class="professional-content">
+          <span class="professional-index" aria-hidden="true">{person.index}</span>
+          <div><h3>{person.nameLines.map((line, index) => <Fragment>{index > 0 && <br />}{line}</Fragment>)}</h3><p class="professional-role">{person.role}</p></div>
+          <p>{person.bio}</p>
+          <Cta {...person.cta} />
+        </div>
+      </div>
+    ))}
+  </div>
+</section>

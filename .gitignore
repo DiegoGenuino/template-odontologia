@@ -1,0 +1,15 @@
+node_modules/
+.astro/
+dist/
+.DS_Store
+.env
+.env.*
+credentials.env
+.npmrc
+.pypirc
+*.pem
+*.p12
+.vercel/
+.venv/
+__pycache__/
+*.pyc

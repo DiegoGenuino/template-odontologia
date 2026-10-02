@@ -1,0 +1,36 @@
+---
+import { resolveHref, type Link, type SiteConfig } from "../config/site";
+import MenuPanel from "./MenuPanel.astro";
+interface Props {
+  brand: SiteConfig["brand"];
+  navigation: SiteConfig["navigation"];
+  links: Link[];
+}
+const { brand, navigation, links } = Astro.props;
+---
+<header class="site-header">
+  <a class="brand" href="#inicio" aria-label={`${brand.name}, início`}>
+    {brand.logoImage ? (
+      <img class="brand-image" src={brand.logoImage.src} alt={brand.logoImage.alt} width={brand.logoImage.width} height={brand.logoImage.height} />
+    ) : (
+      <>
+        <span>{brand.logoText}</span>
+        <svg viewBox="0 0 100 24" fill="none" aria-hidden="true">
+          <path d="M2 7c22 16 48 17 72 0" stroke="currentColor" stroke-width="4" stroke-linecap="round" />
+          <path d="m84 1 2.5 7.5L94 11l-7.5 2.5L84 21l-2.5-7.5L74 11l7.5-2.5L84 1Z" fill="currentColor" />
+        </svg>
+      </>
+    )}
+  </a>
+  <div class="nav-hub">
+    <button class="menu-button" type="button" aria-controls="site-nav" aria-expanded="false" aria-label="Abrir menu">
+      <span class="menu-button-icon" aria-hidden="true"><i></i><i></i><i></i></span><span class="menu-button-label">{navigation.menuLabel}</span>
+    </button>
+    <a class="nav-feature" href={resolveHref(navigation.feature.href)}>{navigation.feature.label}</a>
+    <MenuPanel brand={brand} navigation={navigation} links={links} />
+  </div>
+  <a class="booking-link" href={resolveHref(navigation.booking.href)}>
+    <span class="booking-arrow" aria-hidden="true"><svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M6 18L18 6M18 6H10M18 6V14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg></span>
+    <span class="booking-label">{navigation.booking.label}</span>
+  </a>
+</header>

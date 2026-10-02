@@ -1,0 +1,22 @@
+---
+import type { Link, SiteConfig } from "../../config/site";
+import Header from "../Header.astro";
+import Cta from "../Cta.astro";
+interface Props {
+  data: SiteConfig["hero"];
+  brand: SiteConfig["brand"];
+  navigation: SiteConfig["navigation"];
+  links: Link[];
+}
+const { data, brand, navigation, links } = Astro.props;
+---
+<section class="hero" id="inicio" aria-labelledby="hero-title" style={`--hero-background:url("${data.backgroundImage}")`}>
+  <div class="wrap hero-inner">
+    <Header brand={brand} navigation={navigation} links={links} />
+    <div class="hero-copy">
+      <h1 class="hero-title" id="hero-title">{data.title}</h1>
+      <p class="hero-intro">{data.intro}</p>
+      <Cta {...data.cta} className="hero-cta" />
+    </div>
+  </div>
+</section>

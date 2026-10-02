@@ -1,0 +1,13 @@
+---
+import type { SiteConfig } from "../../config/site";
+import Cta from "../Cta.astro";
+interface Props { data: SiteConfig["location"] }
+const { data } = Astro.props;
+const mapUrl = `https://www.google.com/maps?q=${encodeURIComponent(data.mapQuery)}&z=${data.mapZoom}&output=embed`;
+---
+<section class="location" id="localizacao" aria-labelledby="location-title">
+  <div class="wrap location-grid">
+    <div class="location-copy"><h2 id="location-title">{data.title}</h2><p>{data.intro}</p><Cta {...data.cta} /></div>
+    <div class="location-map"><iframe title={data.mapTitle} src={mapUrl} loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+  </div>
+</section>

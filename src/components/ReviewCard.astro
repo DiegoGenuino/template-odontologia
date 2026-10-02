@@ -1,0 +1,14 @@
+---
+import type { SiteConfig } from "../config/site";
+interface Props { item: SiteConfig["testimonials"]["items"][number] }
+const { item } = Astro.props;
+const avatarStyle = `background-image:url("${item.avatar.src}");background-position:${item.avatar.position};background-size:${item.avatar.size}`;
+---
+<article class="review-card">
+  <div class="review-head">
+    <span class="review-avatar" aria-hidden="true" style={avatarStyle}></span>
+    <div><h3 class="review-name">{item.name}</h3><div class="review-rating"><span class="review-stars" aria-label={`Avaliação ${item.rating} de 5`}>{item.stars}</span><span>{item.rating}</span></div></div>
+  </div>
+  {item.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+  {item.signature && <p class="review-signature">{item.signature}</p>}
+</article>

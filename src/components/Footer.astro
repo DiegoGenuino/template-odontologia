@@ -1,0 +1,32 @@
+---
+import type { Link, SiteConfig } from "../config/site";
+import Cta from "./Cta.astro";
+interface Props {
+  data: SiteConfig["footer"];
+  brand: SiteConfig["brand"];
+  links: Link[];
+  services: SiteConfig["services"]["items"];
+}
+const { data, brand, links, services } = Astro.props;
+---
+<footer class="site-footer" aria-label="Rodapé do site">
+  <div class="wrap footer-inner">
+    <div class="footer-top">
+      <div class="footer-message"><strong>{data.message}</strong><Cta {...data.cta} className="footer-contact" /></div>
+      <nav class="footer-links" aria-label="Navegação do rodapé">
+        <strong>{data.navigationHeading}</strong>
+        {links.map((link) => <a href={link.href}>{link.label}</a>)}
+      </nav>
+      {services.length > 0 && (
+        <nav class="footer-links" aria-label="Serviços no rodapé">
+          <strong>{data.servicesHeading}</strong>
+          {services.map((service) => <a href="#servicos">{service.title}</a>)}
+        </nav>
+      )}
+    </div>
+    <div class="footer-wordmark" aria-label={brand.name} style={brand.footerWordmarkFontSize ? `font-size:${brand.footerWordmarkFontSize}` : undefined}>
+      {brand.footerWords.map((word) => <span>{word}</span>)}
+    </div>
+    <div class="footer-bottom"><span>© <span id="year"></span> {data.copyright}</span><span>{data.disclaimer}</span><a href="#inicio">{data.backToTop}</a></div>
+  </div>
+</footer>

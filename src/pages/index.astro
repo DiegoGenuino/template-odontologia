@@ -1,0 +1,39 @@
+---
+import { site } from "../config/site";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Footer from "../components/Footer.astro";
+import Hero from "../components/sections/Hero.astro";
+import Approach from "../components/sections/Approach.astro";
+import Services from "../components/sections/Services.astro";
+import Space from "../components/sections/Space.astro";
+import About from "../components/sections/About.astro";
+import Professional from "../components/sections/Professional.astro";
+import Gallery from "../components/sections/Gallery.astro";
+import Testimonials from "../components/sections/Testimonials.astro";
+import Faq from "../components/sections/Faq.astro";
+import Location from "../components/sections/Location.astro";
+import Contact from "../components/sections/Contact.astro";
+
+const links = site.navigation.links.filter(
+  (link) => !link.section || site.sections[link.section],
+);
+---
+<BaseLayout seo={site.seo} theme={site.theme}>
+  <div class="site">
+    <main>
+      <Hero data={site.hero} brand={site.brand} navigation={site.navigation} links={links} />
+      {site.sections.approach && <Approach data={site.approach} />}
+      {site.sections.services && <Services data={site.services} />}
+      {site.sections.space && <Space data={site.space} />}
+      {site.sections.about && <About data={site.about} />}
+      {site.sections.professional && <Professional data={site.professional} />}
+      {site.sections.gallery && site.gallery.items.length > 0 && <Gallery data={site.gallery} />}
+      {site.sections.testimonials && <Testimonials data={site.testimonials} />}
+      {site.sections.faq && <Faq data={site.faq} />}
+      {site.sections.location && <Location data={site.location} />}
+      {site.sections.contact && <Contact data={site.contact} />}
+    </main>
+    <div class="menu-overlay" aria-hidden="true"></div>
+    <Footer data={site.footer} brand={site.brand} links={links} services={site.sections.services ? site.services.items : []} />
+  </div>
+</BaseLayout>

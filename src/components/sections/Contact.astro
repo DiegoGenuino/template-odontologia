@@ -1,0 +1,32 @@
+---
+import type { SiteConfig } from "../../config/site";
+import Cta from "../Cta.astro";
+interface Props { data: SiteConfig["contact"] }
+const { data } = Astro.props;
+---
+<section class="contact" id="contato" aria-labelledby="contact-title">
+  <div class="wrap contact-layout">
+    <div class="contact-head"><div><h2 id="contact-title">{data.title}</h2></div><p>{data.intro}</p></div>
+    <form class="contact-form" id="contact-form"
+      data-message-template={data.messageTemplate}
+      data-phone-suffix={data.phoneSuffix}
+      data-copied-label={data.copiedLabel}
+      data-copy-failure-label={data.copyFailureLabel}
+      data-delivery-mode={data.delivery.mode}
+      data-whatsapp-number={data.delivery.whatsappNumber || ""}>
+      <div class="field"><label for="name">{data.fields.name.label}</label><input id="name" name="name" autocomplete="name" placeholder={data.fields.name.placeholder} required /></div>
+      <div class="field"><label for="email">{data.fields.email.label}</label><input id="email" name="email" type="email" autocomplete="email" placeholder={data.fields.email.placeholder} required /></div>
+      <div class="field"><label for="phone">{data.fields.phone.label}</label><input id="phone" name="phone" type="tel" autocomplete="tel" placeholder={data.fields.phone.placeholder} /></div>
+      <div class="field"><label for="subject">{data.fields.subject.label}</label><select id="subject" name="subject">{data.fields.subject.options.map((option) => <option>{option}</option>)}</select></div>
+      <div class="field full"><label for="message">{data.fields.message.label}</label><textarea id="message" name="message" placeholder={data.fields.message.placeholder} required></textarea></div>
+      <Cta label={data.submitLabel} type="submit" />
+      <p class="form-note">{data.note}</p>
+      <div class="form-result" id="form-result" hidden>
+        <strong>{data.resultTitle}</strong>
+        <div id="prepared-message"></div>
+        <button type="button" id="copy-message">{data.copyLabel}</button>
+        <a id="whatsapp-link" class="whatsapp-link" href="#" target="_blank" rel="noopener noreferrer" hidden>{data.delivery.whatsappLabel}</a>
+      </div>
+    </form>
+  </div>
+</section>

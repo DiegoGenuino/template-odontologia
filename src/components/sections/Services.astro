@@ -1,0 +1,17 @@
+---
+import type { SiteConfig } from "../../config/site";
+import ServiceCard from "../ServiceCard.astro";
+interface Props { data: SiteConfig["services"] }
+const { data } = Astro.props;
+---
+<section class="services" id="servicos" aria-labelledby="services-title">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 id="services-title">{data.titleLines.map((line, index) => <Fragment>{index > 0 && <br />}{line}</Fragment>)}</h2>
+      <p>{data.intro}</p>
+    </div>
+    <div class="service-grid" style={`--service-columns:${Math.max(1, Math.min(data.items.length, 4))}`}>
+      {data.items.map((item) => <ServiceCard item={item} />)}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,19 @@
+---
+import type { SiteConfig } from "../../config/site";
+interface Props { data: SiteConfig["space"] }
+const { data } = Astro.props;
+---
+<section class="space-section" id="espaco" aria-labelledby="space-title">
+  <div class="wrap space-grid">
+    <div class="space-copy">
+      <h2 id="space-title">{data.title}</h2>
+      <p>{data.intro}</p>
+      <div class="space-list">
+        {data.highlights.map((highlight) => <div><i>✓</i> {highlight}</div>)}
+      </div>
+    </div>
+    <div class="space-image">
+      <img src={data.image.src} alt={data.image.alt} width={data.image.width} height={data.image.height} /><span>{data.imageCaption}</span>
+    </div>
+  </div>
+</section>

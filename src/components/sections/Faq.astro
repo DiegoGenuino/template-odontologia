@@ -1,0 +1,12 @@
+---
+import type { SiteConfig } from "../../config/site";
+import FaqItem from "../FaqItem.astro";
+interface Props { data: SiteConfig["faq"] }
+const { data } = Astro.props;
+---
+<section class="faq" id="duvidas" aria-labelledby="faq-title">
+  <div class="wrap faq-grid">
+    <div><h2 id="faq-title">{data.title}</h2><p class="intro">{data.intro}</p></div>
+    <div class="questions">{data.items.map((item) => <FaqItem {...item} />)}</div>
+  </div>
+</section>

@@ -1,0 +1,72 @@
+---
+import type { SiteConfig } from "../config/site";
+interface Props { seo: SiteConfig["seo"]; theme: SiteConfig["theme"] }
+const { seo, theme } = Astro.props;
+const siteUrl = (import.meta.env.PUBLIC_SITE_URL || seo.siteUrl).trim();
+const canonicalUrl = siteUrl ? new URL(siteUrl).toString() : undefined;
+const ogImageUrl = seo.openGraph.image.startsWith("http")
+  ? seo.openGraph.image
+  : canonicalUrl ? new URL(seo.openGraph.image, canonicalUrl).toString() : undefined;
+const ogTitle = seo.openGraph.title || seo.title;
+const ogDescription = seo.openGraph.description || seo.description;
+const themeStyle = [
+  ["--blue", theme.blue], ["--blue-deep", theme.blueDeep],
+  ["--navy", theme.navy], ["--dark", theme.dark],
+  ["--muted", theme.muted], ["--paper", theme.paper],
+  ["--line", theme.line], ["--cta-accent", theme.ctaAccent],
+  ["--page-background", theme.pageBackground],
+  ["--deep-section", theme.deepSection], ["--hero-base", theme.heroBase],
+  ["--footer-gradient", theme.footerGradient],
+  ["--display", theme.displayFont], ["--body", theme.bodyFont],
+].map(([name, value]) => `${name}:${value}`).join(";");
+---
+<!doctype html>
+<html lang="pt-BR" style={themeStyle}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content={seo.themeColor} />
+    <meta name="description" content={seo.description} />
+    <title>{seo.title}</title>
+    {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={ogTitle} />
+    <meta property="og:description" content={ogDescription} />
+    <meta property="og:locale" content="pt_BR" />
+    {canonicalUrl && <meta property="og:url" content={canonicalUrl} />}
+    {ogImageUrl && <meta property="og:image" content={ogImageUrl} />}
+    {ogImageUrl && seo.openGraph.imageType && <meta property="og:image:type" content={seo.openGraph.imageType} />}
+    {ogImageUrl && seo.openGraph.imageWidth && <meta property="og:image:width" content={seo.openGraph.imageWidth.toString()} />}
+    {ogImageUrl && seo.openGraph.imageHeight && <meta property="og:image:height" content={seo.openGraph.imageHeight.toString()} />}
+    {ogImageUrl && <meta property="og:image:alt" content={seo.openGraph.imageAlt} />}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={ogTitle} />
+    <meta name="twitter:description" content={ogDescription} />
+    {ogImageUrl && <meta name="twitter:image" content={ogImageUrl} />}
+    {ogImageUrl && <meta name="twitter:image:alt" content={seo.openGraph.imageAlt} />}
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href={theme.googleFontsUrl} rel="stylesheet" />
+    <link rel="icon" type="image/svg+xml" href={seo.favicon} />
+    <script is:inline>
+      if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        document.documentElement.classList.add("split-pending");
+        window.setTimeout(() => document.documentElement.classList.remove("split-pending"), 5000);
+      }
+    </script>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <slot />
+    <script is:inline src="/assets/gsap.min.js"></script>
+    <script is:inline src="/assets/ScrollTrigger.min.js"></script>
+    <script is:inline src="/assets/SplitText.min.js"></script>
+    <script is:inline src="/scripts/ctas.js"></script>
+    <script is:inline src="/scripts/menu.js"></script>
+    <script is:inline src="/scripts/contact.js"></script>
+    <script is:inline src="/scripts/faq.js"></script>
+    <script is:inline src="/scripts/motion.js"></script>
+    <script is:inline src="/scripts/testimonials.js"></script>
+    <script is:inline src="/scripts/gallery.js"></script>
+  </body>
+</html>

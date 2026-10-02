@@ -1,0 +1,17 @@
+---
+import type { SiteConfig } from "../../config/site";
+import ReviewCard from "../ReviewCard.astro";
+interface Props { data: SiteConfig["testimonials"] }
+const { data } = Astro.props;
+---
+<section class="trust" aria-labelledby="trust-title">
+  <div class="wrap">
+    <div class="trust-top"><div><h2 id="trust-title">{data.title}</h2></div><p>{data.intro}</p></div>
+    <div class="review-controls">
+      <button type="button" class="review-prev" aria-label="Ver avaliação anterior">←</button><button type="button" class="review-next" aria-label="Ver próxima avaliação">→</button>
+    </div>
+    <div class="review-track" aria-label={data.trackLabel} tabindex="0">
+      {data.items.map((item) => <ReviewCard item={item} />)}
+    </div>
+  </div>
+</section>

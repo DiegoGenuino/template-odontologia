@@ -1,0 +1,14 @@
+{
+  "fileName": "og-image.png",
+  "imageAlt": "Marina Costa — odontologia individual em um ambiente de cuidado",
+  "background": "public/assets/hero-clinic-appointment.webp",
+  "name": "Marina\nCosta",
+  "eyebrow": "ODONTOLOGIA INDIVIDUAL",
+  "subtitle": "Seu sorriso merece um novo olhar.",
+  "font": "",
+  "textSide": "left",
+  "focalPoint": [0.5, 0.5],
+  "overlayColor": "#071a22",
+  "accentColor": "#53c7fa",
+  "textColor": "#ffffff"
+}

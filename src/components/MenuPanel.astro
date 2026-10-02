@@ -1,0 +1,20 @@
+---
+import { resolveHref, type Link, type SiteConfig } from "../config/site";
+interface Props {
+  brand: SiteConfig["brand"];
+  navigation: SiteConfig["navigation"];
+  links: Link[];
+}
+const { brand, navigation, links } = Astro.props;
+---
+<div class="menu-panel" id="site-nav" aria-hidden="true" inert data-default-current={resolveHref(navigation.feature.href)}>
+  <svg class="menu-symbols" width="0" height="0" aria-hidden="true"><symbol id="menu-arrow-icon" viewBox="0 0 24 24"><path d="M6 18L18 6M18 6H10M18 6V14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></symbol></svg>
+  <p class="menu-panel-head">{navigation.menuGreeting.map((line, index) => <Fragment>{index > 0 && <br />}{line}</Fragment>)}</p>
+  <div class="menu-art" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  <nav class="menu-links" aria-label="Navegação principal">
+    {links.map((link, index) => (
+      <a href={link.href} style={`--i:${index}`}><span>{link.label}</span><span class="menu-link-arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#menu-arrow-icon" /></svg></span></a>
+    ))}
+  </nav>
+  <div class="menu-bottom"><span>{brand.name} © <span id="menu-year"></span></span><span>{brand.profession}</span></div>
+</div>

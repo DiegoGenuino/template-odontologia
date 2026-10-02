@@ -1,0 +1,32 @@
+---
+import type { SiteConfig } from "../../config/site";
+
+interface Props { data: SiteConfig["gallery"] }
+const { data } = Astro.props;
+---
+<section class="gallery" id="galeria" aria-labelledby="gallery-title">
+  <div class="wrap gallery-heading">
+    <h2 id="gallery-title">{data.title}</h2>
+    <p>{data.intro}</p>
+  </div>
+  <div class="gallery-viewport" role="region" aria-label={data.trackLabel} tabindex="0" data-gallery-speed={data.pixelsPerSecond}>
+    <div class="gallery-track">
+      <div class="gallery-set">
+        {data.items.map((item) => (
+          <figure class="gallery-card">
+            <img
+              src={item.image.src}
+              alt={item.image.alt}
+              width={item.image.width}
+              height={item.image.height}
+              loading="lazy"
+              decoding="async"
+              style={`object-position:${item.objectPosition ?? "center"}`}
+            />
+            {item.caption && <figcaption>{item.caption}</figcaption>}
+          </figure>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
