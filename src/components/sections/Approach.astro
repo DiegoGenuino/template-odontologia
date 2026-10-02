@@ -7,7 +7,7 @@ const { data } = Astro.props;
   <div class="wrap approach-inner">
     <h2 id="approach-title">
       <span class="approach-line"><span class="approach-line-text">{data.firstLine}</span></span>
-      <span class="approach-line approach-line-muted"><img src={data.inlineImage.src} alt={data.inlineImage.alt} width={data.inlineImage.width} height={data.inlineImage.height} /><span class="approach-line-text">{data.secondLine}</span></span>
+      <span class="approach-line approach-line-muted"><img src={data.inlineImage.src} alt={data.inlineImage.alt} width={data.inlineImage.width} height={data.inlineImage.height} loading="lazy" decoding="async" /><span class="approach-line-text">{data.secondLine}</span></span>
     </h2>
     <div class="approach-grid" style={`--approach-columns:${Math.max(1, Math.min(data.items.length, 3))}`}>
       {data.items.map((item) => (

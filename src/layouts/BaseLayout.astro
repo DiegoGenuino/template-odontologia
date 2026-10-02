@@ -1,7 +1,7 @@
 ---
 import type { SiteConfig } from "../config/site";
-interface Props { seo: SiteConfig["seo"]; theme: SiteConfig["theme"] }
-const { seo, theme } = Astro.props;
+interface Props { seo: SiteConfig["seo"]; theme: SiteConfig["theme"]; heroImage: SiteConfig["hero"]["backgroundImage"] }
+const { seo, theme, heroImage } = Astro.props;
 const siteUrl = (import.meta.env.PUBLIC_SITE_URL || seo.siteUrl).trim();
 const canonicalUrl = siteUrl ? new URL(siteUrl).toString() : undefined;
 const ogImageUrl = seo.openGraph.image.startsWith("http")
@@ -44,29 +44,27 @@ const themeStyle = [
     <meta name="twitter:description" content={ogDescription} />
     {ogImageUrl && <meta name="twitter:image" content={ogImageUrl} />}
     {ogImageUrl && <meta name="twitter:image:alt" content={seo.openGraph.imageAlt} />}
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href={theme.googleFontsUrl} rel="stylesheet" />
+    {heroImage.mobileSrc && <link rel="preload" as="image" href={heroImage.mobileSrc} media="(max-width: 760px)" fetchpriority="high" />}
+    <link rel="preload" as="image" href={heroImage.src} media={heroImage.mobileSrc ? "(min-width: 761px)" : undefined} fetchpriority="high" />
+    {theme.googleFontsUrl && <link href={theme.googleFontsUrl} rel="stylesheet" />}
     <link rel="icon" type="image/svg+xml" href={seo.favicon} />
     <script is:inline>
       if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-        document.documentElement.classList.add("split-pending");
-        window.setTimeout(() => document.documentElement.classList.remove("split-pending"), 5000);
+        document.documentElement.classList.add("motion-pending");
+        window.setTimeout(() => document.documentElement.classList.remove("motion-pending"), 5000);
       }
     </script>
     <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
     <slot />
-    <script is:inline src="/assets/gsap.min.js"></script>
-    <script is:inline src="/assets/ScrollTrigger.min.js"></script>
-    <script is:inline src="/assets/SplitText.min.js"></script>
-    <script is:inline src="/scripts/ctas.js"></script>
-    <script is:inline src="/scripts/menu.js"></script>
-    <script is:inline src="/scripts/contact.js"></script>
-    <script is:inline src="/scripts/faq.js"></script>
-    <script is:inline src="/scripts/motion.js"></script>
-    <script is:inline src="/scripts/testimonials.js"></script>
-    <script is:inline src="/scripts/gallery.js"></script>
+    <script is:inline src="/assets/gsap.min.js" defer></script>
+    <script is:inline src="/scripts/ctas.js" defer></script>
+    <script is:inline src="/scripts/menu.js" defer></script>
+    <script is:inline src="/scripts/contact.js" defer></script>
+    <script is:inline src="/scripts/faq.js" defer></script>
+    <script is:inline src="/scripts/motion.js" defer></script>
+    <script is:inline src="/scripts/testimonials.js" defer></script>
+    <script is:inline src="/scripts/gallery.js" defer></script>
   </body>
 </html>

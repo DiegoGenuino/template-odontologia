@@ -10,7 +10,11 @@ interface Props {
 }
 const { data, brand, navigation, links } = Astro.props;
 ---
-<section class="hero" id="inicio" aria-labelledby="hero-title" style={`--hero-background:url("${data.backgroundImage}")`}>
+<section class="hero" id="inicio" aria-labelledby="hero-title">
+  <picture class="hero-picture" aria-hidden="true">
+    {data.backgroundImage.mobileSrc && <source media="(max-width: 760px)" srcset={data.backgroundImage.mobileSrc} />}
+    <img src={data.backgroundImage.src} alt={data.backgroundImage.alt} width={data.backgroundImage.width} height={data.backgroundImage.height} loading="eager" decoding="async" fetchpriority="high" />
+  </picture>
   <div class="wrap hero-inner">
     <Header brand={brand} navigation={navigation} links={links} />
     <div class="hero-copy">

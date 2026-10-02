@@ -1,3 +1,5 @@
+@font-face{font-family:Manrope;src:url('/fonts/manrope-latin-variable.woff2') format('woff2');font-style:normal;font-weight:400 800;font-display:swap}
+@font-face{font-family:'DM Sans';src:url('/fonts/dm-sans-latin-variable.woff2') format('woff2');font-style:normal;font-weight:400 700;font-display:swap}
 :root {
         --blue: #1599f4;
         --blue-deep: #087fdc;
@@ -18,8 +20,8 @@
       html {
         scroll-behavior: smooth;
       }
-      html.split-pending :is(
-        .hero-title, .hero-intro,
+      html.motion-pending :is(
+        .site-header, .hero-title, .hero-intro, .hero-cta,
         .section-head h2, .section-head p,
         .approach-line-text,
         .space-copy h2, .space-copy > p,
@@ -93,13 +95,16 @@
         height: min(780px, 100svh);
         position: relative;
         overflow: hidden;
-        background: var(--hero-base, #1d3d48) var(--hero-background) 60% center / cover no-repeat;
+        background: var(--hero-base, #1d3d48);
         color: white;
       }
+      .hero-picture{position:absolute;inset:0;z-index:0;display:block;overflow:hidden}
+      .hero-picture img{width:100%;height:100%;max-width:none;object-fit:cover;object-position:60% center}
       .hero:before {
         content: "";
         position: absolute;
         inset: 0;
+        z-index: 1;
         background:
           linear-gradient(90deg, #061d2be8 0%, #092938ba 31%, #0c324c59 58%, #0c324c0d 100%),
           linear-gradient(0deg, #061d2b47, transparent 62%);
@@ -107,6 +112,7 @@
       }
       .hero-inner {
         position: relative;
+        z-index: 2;
         height: 100%;
       }
       .site-header {
@@ -1630,8 +1636,9 @@
           min-height: 500px;
         }
         .hero {
-          background-position: 86% center;
+          background-position: center;
         }
+        .hero-picture img{object-position:center}
         .hero:before {
           background:
             linear-gradient(90deg, #061d2be8, #092938ad),
@@ -1791,6 +1798,7 @@
       .menu-overlay.is-open{opacity:1;visibility:visible;pointer-events:auto}
       body:is(.menu-open,.menu-closing) .site-header{z-index:1100}
       body:is(.menu-open,.menu-closing) .hero{overflow:visible}
+      body:is(.menu-open,.menu-closing) .hero-inner{z-index:auto}
       body:is(.menu-open,.menu-closing) .site-header .brand{visibility:hidden}
       body:is(.menu-open,.menu-closing) .site-header > .booking-link{visibility:hidden}
       body:is(.menu-open,.menu-closing) .nav-hub{position:fixed;top:var(--menu-header-top,24px);left:50%;z-index:1101;transform:translateX(-50%)}

@@ -18,7 +18,7 @@ const links = site.navigation.links.filter(
   (link) => !link.section || site.sections[link.section],
 );
 ---
-<BaseLayout seo={site.seo} theme={site.theme}>
+<BaseLayout seo={site.seo} theme={site.theme} heroImage={site.hero.backgroundImage}>
   <div class="site">
     <main>
       <Hero data={site.hero} brand={site.brand} navigation={site.navigation} links={links} />

@@ -8,7 +8,7 @@ Depois de enviar esta pasta a um repositório no GitHub, abra **Settings** e ati
 
 O `"private": true` do `package.json` impede a publicação acidental no npm; a visibilidade do repositório no GitHub é escolhida separadamente ao criá-lo.
 
-Este repositório não inclui uma licença de uso para o código do template. Os arquivos GSAP em `public/assets/` mantêm os avisos de autoria e seguem os [termos próprios da GreenSock](https://gsap.com/standard-license/). A configuração inicial, as fotos e os depoimentos são demonstrativos; substitua-os por dados e imagens autorizados antes de publicar um site de cliente.
+Este repositório não inclui uma licença de uso para o código do template. O arquivo GSAP em `public/assets/` mantém os avisos de autoria e segue os [termos próprios da GreenSock](https://gsap.com/standard-license/). As fontes incluídas em `public/fonts/` têm seus avisos OFL em `licenses/`. A configuração inicial, as fotos e os depoimentos são demonstrativos; substitua-os por dados e imagens autorizados antes de publicar um site de cliente.
 
 Não envie chaves ou arquivos de credenciais para o GitHub. O script de implantação procura `credentials.env` fora desta pasta, e o `.gitignore` também bloqueia cópias locais comuns de credenciais. Antes do primeiro envio, confira os arquivos que serão incluídos no commit.
 
@@ -81,7 +81,7 @@ logoImage: {
 
 Troque também `brand.name`, `brand.footerWords`, `brand.profession`, `navigation.menuGreeting`, `professional.items`, `footer.copyright` e `seo`. O nome grande do rodapé aceita qualquer quantidade de palavras. Se o nome for longo, use `brand.footerWordmarkFontSize`, por exemplo `"clamp(54px, 8vw, 140px)"`, e confira no mobile.
 
-Cada imagem de conteúdo tem `src`, `alt`, `width` e `height`. Atualize as dimensões conforme o arquivo real para reservar espaço durante o carregamento. A foto da hero usa `hero.backgroundImage` e deve ter boa legibilidade sob o texto; o degradê escuro da hero está em `public/styles.css`.
+Cada imagem de conteúdo tem `src`, `alt`, `width` e `height`. Atualize as dimensões conforme o arquivo real para reservar espaço durante o carregamento. A foto da hero usa `hero.backgroundImage` com esses mesmos campos e pode receber `mobileSrc`, um corte vertical específico para telas de até 760 px. O componente carrega o corte adequado com prioridade alta; use WebP ou AVIF compactado e mantenha boa legibilidade sob o texto. O degradê escuro da hero está em `public/styles.css`. Se trocar a imagem, confira também o enquadramento em desktop e mobile. Para imagens somente decorativas, como a foto da hero, use `alt: ""`.
 
 ### Imagem de compartilhamento (OG image)
 
@@ -158,7 +158,7 @@ Os IDs disponíveis são `#inicio`, `#servicos`, `#espaco`, `#sobre`, `#profissi
 
 `theme` injeta as variáveis principais no elemento `<html>`. As cores detalhadas, espaçamentos e breakpoints estão em `public/styles.css`. A configuração padrão mantém o visual atual. Para uma identidade que exija mudanças mais profundas, ajuste o CSS sem precisar reescrever os componentes.
 
-`theme.googleFontsUrl`, `displayFont` e `bodyFont` devem ser alterados juntos se a fonte mudar. O CSS usa `--display` para títulos e links e `--body` para parágrafos. Confira nomes longos, larguras de CTA e quebras de linha no mobile após trocar a fonte.
+Manrope e DM Sans já estão em `public/fonts/` com `font-display: swap`, sem requisição ao Google Fonts. O CSS usa `--display` para títulos e links e `--body` para parágrafos. Se trocar a fonte, coloque arquivos WOFF2 locais em `public/fonts/`, ajuste os `@font-face` no início de `public/styles.css` e altere `theme.displayFont` e `theme.bodyFont`. `theme.googleFontsUrl` é opcional para uma fonte externa, mas acrescenta uma requisição que pode atrasar o carregamento. Confira nomes longos, larguras de CTA e quebras de linha no mobile após trocar a fonte.
 
 ### Avaliações
 
@@ -225,14 +225,23 @@ src/components/sections/Gallery.astro  galeria de fotos
 src/components/sections/        uma seção Astro por arquivo
 public/styles.css               visual e breakpoints
 public/scripts/                  comportamento do navegador
-public/assets/                   fotos, imagens e bibliotecas GSAP
+public/assets/                   fotos, imagens e biblioteca GSAP
+public/fonts/                    fontes locais compactas
+licenses/                        licenças das fontes
 scripts/generate_og.py           gerador local da imagem OG
 scripts/deploy.py                implantação Vercel + DNS Cloudflare
 ```
 
 Os componentes recebem dados por props; os loops renderizam as listas. `Cta.astro` é compartilhado pelos CTAs de seções e footer. O JS em `public/scripts/` fica separado por comportamento: `ctas.js` monta o *text roll*, `menu.js` controla o menu, `faq.js` anima as respostas, `gallery.js` move a galeria contínua, `testimonials.js` move o carrossel, `contact.js` prepara a mensagem e `motion.js` cuida das animações GSAP.
 
-O estado inicial dos textos animados é ocultado antes da renderização e revelado quando o GSAP está pronto, evitando FOUC sem remover seu espaço do layout. Há fallback para movimento reduzido ou carregamento incompleto. Ao acrescentar um novo texto animado, inclua seu seletor tanto na regra `html.split-pending` em `styles.css` quanto em `motion.js`.
+O estado inicial dos textos animados é ocultado antes da renderização e revelado quando o GSAP está pronto, evitando FOUC sem remover seu espaço do layout. `motion.js` anima blocos inteiros conforme entram na tela; ele não divide palavras em caracteres, o que mantém o DOM e o processamento leves. Há fallback para movimento reduzido ou carregamento incompleto. Ao acrescentar um novo texto animado, inclua seu seletor tanto na regra `html.motion-pending` em `styles.css` quanto em `motion.js`.
+
+### Manter a performance ao personalizar
+
+- Crie uma foto da hero para desktop e um corte vertical para mobile. Compacte ambas em WebP ou AVIF antes de colocar em `public/assets/`. A imagem mobile de exemplo tem cerca de 28 KB.
+- Para miniaturas, forneça arquivos pequenos. A imagem inserida na frase de abertura usa `marina-inline.webp` de 192 × 103 px, em vez do retrato completo.
+- Mantenha `loading="lazy"` nas imagens abaixo da hero e no mapa. Preserve `width` e `height` reais para evitar deslocamentos no layout.
+- Evite scripts e fontes externas adicionais no primeiro carregamento. Teste o build de produção com PageSpeed Insights ou Lighthouse em mobile e desktop após cada personalização.
 
 ## Antes de entregar uma versão
 

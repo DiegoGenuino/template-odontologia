@@ -48,7 +48,7 @@ export interface SiteConfig {
     menuLabel: string; menuGreeting: string[]; feature: Action;
     booking: Action; links: Link[];
   };
-  hero: { title: string; intro: string; backgroundImage: string; cta: Action };
+  hero: { title: string; intro: string; backgroundImage: ImageAsset & { mobileSrc?: string }; cta: Action };
   approach: {
     firstLine: string; secondLine: string; inlineImage: ImageAsset;
     items: { number: string; title: string; description: string }[];
@@ -135,7 +135,7 @@ export const site: SiteConfig = {
     footerGradient: "linear-gradient(180deg,#010609 0%,#001522 38%,#003e69 100%)",
     displayFont: "Manrope, Arial, sans-serif",
     bodyFont: '"DM Sans", Arial, sans-serif',
-    googleFontsUrl: "https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap",
+    googleFontsUrl: "",
   },
   brand: {
     name: "Marina Costa", logoText: "marina costa", footerWords: ["marina", "costa"],
@@ -163,13 +163,19 @@ export const site: SiteConfig = {
   hero: {
     title: "Seu sorriso merece um novo olhar.",
     intro: "Odontologia individual, gentil e pensada para ajudar você a entender cada passo do cuidado.",
-    backgroundImage: "/assets/hero-clinic-appointment.webp",
+    backgroundImage: {
+      src: "/assets/hero-clinic-appointment.webp",
+      mobileSrc: "/assets/hero-clinic-appointment-mobile.webp",
+      alt: "",
+      width: 1774,
+      height: 887,
+    },
     cta: { label: "Explorar serviços", href: "#servicos" },
   },
   approach: {
     firstLine: "Cuidado de verdade começa com escuta",
     secondLine: "e segue com clareza em cada escolha.",
-    inlineImage: { src: "/assets/marina-portrait.webp", alt: "", width: 96, height: 45 },
+    inlineImage: { src: "/assets/marina-inline.webp", alt: "", width: 192, height: 103 },
     items: [
       { number: "01", title: "Primeiro, ouvir você.", description: "Um espaço para contar o que sente, tirar dúvidas e compartilhar o que espera do seu sorriso." },
       { number: "02", title: "Entender as possibilidades.", description: "Cada caminho de cuidado é explicado com calma para que você participe das decisões." },
@@ -199,7 +205,7 @@ export const site: SiteConfig = {
       "Você chega com uma história, expectativas e perguntas. O cuidado começa por entender tudo isso antes de definir os próximos passos.",
       "O objetivo é que você conheça as possibilidades e participe das decisões com tranquilidade.",
     ],
-    image: { src: "/assets/hero-dentist.png", alt: "Retrato ilustrativo da profissional", width: 1024, height: 1536 },
+    image: { src: "/assets/hero-dentist.webp", alt: "Retrato ilustrativo da profissional", width: 1160, height: 1355 },
     cta: { label: "Perguntas frequentes", href: "#duvidas" },
   },
   professional: {

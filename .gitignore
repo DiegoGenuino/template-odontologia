@@ -13,3 +13,4 @@ credentials.env
 .venv/
 __pycache__/
 *.pyc
+*.report.html

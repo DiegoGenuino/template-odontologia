@@ -6,7 +6,7 @@ const { data } = Astro.props;
 ---
 <section class="about" id="sobre" aria-labelledby="about-title">
   <div class="wrap about-grid">
-    <div class="doctor-portrait"><img src={data.image.src} alt={data.image.alt} width={data.image.width} height={data.image.height} /></div>
+    <div class="doctor-portrait"><img src={data.image.src} alt={data.image.alt} width={data.image.width} height={data.image.height} loading="lazy" decoding="async" /></div>
     <div class="about-copy">
       <h2 id="about-title">{data.title}</h2>
       {data.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
